@@ -1,17 +1,19 @@
 package com.ll;
 
+import java.awt.geom.QuadCurve2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 class App {
     void run() {
-        int index = 0;
-        //배열생성
-        String[] titleArr = new String[5];
-        String[] authorArr = new String[6];
+
         //프로그램시작
         System.out.println("===명언앱 ===");
-
-
+        int index = 0;
+        //명어 넣을 배열 객체 한개 만들기
+        //가변크기로 만들기
+        List<Quotation> quotations =new ArrayList<>();
         while (true) {
             System.out.printf("명령) ");
             Scanner scanner = new Scanner(System.in);
@@ -20,21 +22,25 @@ class App {
                 break;
             } else if (cmd.equals("등록")) {
                 System.out.print("명언 : ");
-                titleArr[index]= scanner.nextLine();
+                String content =scanner.nextLine();
+                //titleArr[index]= scanner.nextLine();
                 System.out.print("작가 : ");
-                authorArr[index]= scanner.nextLine();
+                //authorArr[index]= scanner.nextLine();
+                String authorName =scanner.nextLine();
 
-
-                System.out.println(titleArr[index]);
-                System.out.println(authorArr[index]);
+                System.out.println(content);
+                System.out.println(authorName);
                 index++;
+                int id = index;
+                //Quotation  클래스
+                Quotation quotation = new Quotation(id,content,authorName);
+                quotations.add(quotation);
+
                 System.out.println(index + "번 명언이 등록되었습니다.");
             } else if (cmd.equals("목록")) {
-                System.out.println(" 번호 / 작가 / 명언 ");
-                System.out.println("------------------------");
-                for (int i = 0; i < titleArr.length; i++) {
-                    System.out.println((i+1) +" / " + titleArr[i]+ " / " +authorArr[i]);
-                }
+                System.out.println("총 개수" + quotations.size());
+                System.out.println("번호 / 작가 / 명언");
+
             }
         }
     }
