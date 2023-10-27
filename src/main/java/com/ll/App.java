@@ -23,6 +23,11 @@ class App {
         while (true) {
             System.out.printf("명령) ");
             String cmd = scanner.nextLine();
+            //request 객체 생성
+            Rq rq= new Rq(cmd);
+            System.out.println("rq.getAction : " +rq.getAction());
+            System.out.println("rq.getParamAsInt : " +rq.getParamAsInt("id",0));
+
 
             if (cmd.equals("종료")) {
                 break;
