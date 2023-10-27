@@ -31,6 +31,11 @@ class App {
                 actionWrite();
             } else if (cmd.equals("목록")) {
                 actionList();
+            } else if (cmd.startsWith("삭제?")) {
+                actionRemove(cmd);
+            } else if (cmd.startsWith("수정?")) {
+                actionModify(cmd);
+
             }
         }
     }
@@ -45,9 +50,9 @@ class App {
         index++;
         int id = index;
 
-        Quotation quotation = new Quotation(id,content, authorName);
+        Quotation quotation = new Quotation(id, content, authorName);
         quotations.add(quotation);
-        System.out.println(id +"번 명언이 등록되었습니다.");
+        System.out.println(id + "번 명언이 등록되었습니다.");
 
     }
 
@@ -60,12 +65,46 @@ class App {
             System.out.println("등록된 명언이 없습니다");
         for (int i = quotations.size() - 1; i >= 0; i--) {
             Quotation quotation = quotations.get(i);
+
             System.out.printf("%d / %s / %s\n", quotation.id, quotation.authorName, quotation.content);
         }
     }
 
     //삭제
-    void actionRemove() {
+    void actionRemove(String cmd) {
+        //뽑을 인덱스
+        //삭제?id=5&archive=true
+        //?를 기준으로 명령어와 인덱스를 나눈다
+        //cmdBits배열에 넣어 관리한다. 삭제 // id=5&a  rchive=true
+        String[] cmdBits = cmd.split("\\?",2);
+        String action = cmdBits[0];
+        String queryString =  cmdBits[1];
+
+        //queryStringBits 배열에 &기준으로 분리
+        //id=5 / archive=true
+        String[] queryStringBits= queryString.split("&");
+
+        //?
+        int id =0;
+        for (int i = 0; i < queryStringBits.length; i++) {
+            String queryParamStr =queryStringBits[i];
+            // id / 5/ archive= true
+            String[] queryParamStrBits =queryParamStr.split("=",2);
+
+            String paramName= queryParamStrBits[0];// id
+            String paramValue =queryParamStrBits[1]; //5
+
+            if(paramName.equals("id"))
+            {
+                id=Integer.parseInt(paramValue);
+            }
+        }
+        System.out.println(id + "번 명언을 삭제합니다.");
+
+
+    }
+    void actionModify(){
+        System.out.println(id+"번 명언을 수정핮니다");
 
     }
 }
