@@ -15,7 +15,7 @@ public class Rq {
         paramValues = new ArrayList<>();
 
         this.cmd = cmd;
-
+        //공백제거
         String[] cmdBits = cmd.split("\\?", 2);
         action = cmdBits[0].trim();
         queryString = cmdBits[1].trim();

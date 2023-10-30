@@ -24,23 +24,26 @@ class App {
             System.out.printf("명령) ");
             String cmd = scanner.nextLine();
             //request 객체 생성
-            Rq rq= new Rq(cmd);
-            System.out.println("rq.getAction : " +rq.getAction());
-            System.out.println("rq.getParamAsInt : " +rq.getParamAsInt("id",0));
+            Rq rq = new Rq(cmd);
+            System.out.println("rq.getAction : " + rq.getAction());
+            System.out.println("rq.getParamAsInt : " + rq.getParamAsInt("id", 0));
 
 
-            if (cmd.equals("종료")) {
-                break;
-            } else if (cmd.equals("등록")) {
-                //함수선언
-                actionWrite();
-            } else if (cmd.equals("목록")) {
-                actionList();
-            } else if (cmd.startsWith("삭제?")) {
-                actionRemove(cmd);
-            } else if (cmd.startsWith("수정?")) {
-                actionModify(cmd);
-
+            switch (rq.getAction()) {
+                case "종료":
+                    return;
+                case "등록":
+                    actionWrite();
+                    break;
+                case "목록":
+                    actionList();
+                    break;
+                case "삭제":
+                    actionRemove(rq);
+                    break;
+                case "수정":
+                    actionModify(rq);
+                    break;
             }
         }
     }
@@ -76,60 +79,26 @@ class App {
     }
 
     //삭제
-    void actionRemove(String cmd) {
+    void actionRemove(Rq rq) {
         //명령어와 id값을 찾아라.
-        int id= getParamAsInt(cmd, "id",0);
+        int id = rq.getParamAsInt("id", 0);
 
-        if(id==0){
+        if (id == 0) {
             System.out.println("id를 정확히 입력해주세요.");
             return; //함수를 끝낸다.
         }
-        System.out.println(id+"번 명언을 삭제합니다");
+        System.out.println(id + "번 명언을 삭제합니다");
 
     }
-    void actionModify(String cmd){
-        int id =getParamAsInt(cmd, "id", 0);
 
-        if(id==0){
+    void actionModify(Rq rq) {
+        int id = rq.getParamAsInt("id", 0);
+
+        if (id == 0) {
             System.out.println("id를 정확히 입력해주세요.");
             return; //함수를 끝낸다.
         }
-        System.out.println(id+"번 명언을 수정합니다");
+        System.out.println(id + "번 명언을 수정합니다");
 
-    }
-    //삭제?id=5&archive=true
-    int getParamAsInt(String cmd, String paramName, int defaultValue) {
-
-        //?를 기준으로 명령어와 인덱스를 나눈다
-        //cmdBits배열에 넣어 관리한다. 삭제 // cmdBtits 배열에 id=5&archive=true 넣기
-        String[] cmdBits = cmd.split("\\?", 2);
-        String queryString = cmdBits[1];
-
-        // queryStringBits 배열에 [id=5 , archive=true] 로 나눔
-        String[] queryStringBits = queryString.split("&");
-
-        //queryParamStr에 넣어주기
-        for (int i = 0; i < queryStringBits.length; i++) {
-
-            //queryParamBits[0]은 id=5
-            //queryParamBits[1]은 archive=true
-
-            String queryParamStr = queryStringBits[i];
-            //queryParamStrBits 는 id
-            String[] queryParamStrBits = queryParamStr.split("=", 2);
-
-            String _paramName = queryParamStrBits[0];
-            String paramValue = queryParamStrBits[1];
-            if(_paramName.equals(paramName)){
-                try{
-                    //문제가 없을경우
-                    return Integer.parseInt(paramValue);
-                }catch (NumberFormatException e){
-                    //문제가 생긴경우
-                    return defaultValue;
-                }
-            }
-        }
-        return defaultValue;
     }
 }
