@@ -15,7 +15,11 @@ public class Rq {
         paramValues = new ArrayList<>();
 
         this.cmd = cmd;
+<<<<<<< HEAD
         //공백제거
+=======
+
+>>>>>>> 3d0cb826f7c3b3f6a084d74c9b3dad1b03691270
         String[] cmdBits = cmd.split("\\?", 2);
         action = cmdBits[0].trim();
         queryString = cmdBits[1].trim();
@@ -51,4 +55,8 @@ public class Rq {
             return defaultValue;
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3d0cb826f7c3b3f6a084d74c9b3dad1b03691270
